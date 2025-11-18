@@ -23,10 +23,11 @@ This prevents Claude from working on code without the proper context and best pr
 This file defines which skills are required for your project. Each project needs its own config file because different projects have different requirements.
 
 **Quick Setup**:
+
 ```bash
 # Run these commands in your project root directory
 mkdir -p .claude/hooks
-cp ~/.claude/plugins/skill-checker/config-templates/skill-checker.example.json .claude/hooks/skill-checker.json
+cp ~/.claude/plugins/marketplaces/skill-checker-marketplace/config-templates/skill-checker.example.json .claude/hooks/skill-checker.json
 # Edit the file to customize for your project
 ```
 
@@ -48,16 +49,20 @@ Without this file, the hook will not enforce any skill requirements (fail-open b
 
 ### Step 2: Configure for Your Project
 
+You can use `/init` to run the init slash command.
+
 **IMPORTANT**: This plugin requires project-specific configuration. After installation, you must create a `skill-checker.json` file in your project's `.claude/hooks/` directory.
 
 1. Create the hooks directory if it doesn't exist:
+
    ```bash
    mkdir -p .claude/hooks
    ```
 
 2. Copy the example config from this plugin's `config-templates/` directory or create your own:
+
    ```bash
-   cp ~/.claude/plugins/skill-checker/config-templates/skill-checker.example.json .claude/hooks/skill-checker.json
+   cp ~/.claude/plugins/marketplaces/skill-checker-marketplace/config-templates/skill-checker.example.json .claude/hooks/skill-checker.json
    ```
 
 3. Edit `.claude/hooks/skill-checker.json` to match your project's needs (see Configuration section below)
@@ -98,18 +103,12 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
     {
       "skill": "liveview-templates",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "**/*.heex",
-        "**/live/**/*.ex"
-      ]
+      "patterns": ["**/*.heex", "**/live/**/*.ex"]
     },
     {
       "skill": "elixir-best-practices",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "lib/**/*.ex",
-        "**/test/**/*.exs"
-      ]
+      "patterns": ["lib/**/*.ex", "**/test/**/*.exs"]
     },
     {
       "skill": "test-debugger",
@@ -128,18 +127,12 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
     {
       "skill": "react-best-practices",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "src/**/*.tsx",
-        "src/**/*.jsx"
-      ]
+      "patterns": ["src/**/*.tsx", "src/**/*.jsx"]
     },
     {
       "skill": "typescript-patterns",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "src/**/*.ts",
-        "src/**/*.tsx"
-      ]
+      "patterns": ["src/**/*.ts", "src/**/*.tsx"]
     }
   ]
 }
@@ -163,12 +156,14 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
 ### Pattern Matching
 
 1. **Tool Matcher**: Uses regex to match tool names exactly as they appear (case-sensitive)
+
    - `"Write"` - matches only the Write tool
    - `"Write|Edit"` - matches either Write or Edit
    - `"Bash"` - matches the Bash tool
    - `"mcp__.*"` - matches any MCP tool
 
 2. **Tool Input Matcher** (optional): Uses regex to match the JSON representation of tool inputs
+
    - Useful for matching specific commands: `"mix test"`, `"npm run"`
    - Matches against the entire tool input JSON string
 
@@ -180,12 +175,14 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
 ### Conversation Continuation
 
 The hook intelligently handles conversation continuation:
+
 - When a conversation is resumed, only skills loaded **after** the continuation are checked
 - This prevents false positives from skills loaded in previous conversation sessions
 
 ### Fail-Open Safety
 
 The hook is designed to fail-open (allow tool use) if:
+
 - The config file is missing or malformed
 - `jq` is not installed
 - The transcript is unavailable
@@ -198,11 +195,13 @@ This ensures Claude can continue working even if the hook encounters issues.
 ### Hook Not Working
 
 1. **Check config file exists**:
+
    ```bash
    ls -la .claude/hooks/skill-checker.json
    ```
 
 2. **Validate JSON syntax**:
+
    ```bash
    jq '.' .claude/hooks/skill-checker.json
    ```
