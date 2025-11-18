@@ -1,0 +1,21 @@
+{
+  "name": "skill-checker-marketplace",
+  "version": "1.0.0",
+  "description": "Skill enforcement hooks for Claude Code",
+  "owner": {
+    "name": "Ivor Paul",
+    "email": "ivor@example.com"
+  },
+  "plugins": [
+    {
+      "name": "skill-checker",
+      "description": "Enforces skill activation before using specific tools",
+      "source": "./",
+      "category": "workflow",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ivor Paul"
+      }
+    }
+  ]
+}
