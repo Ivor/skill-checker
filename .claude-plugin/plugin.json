@@ -5,6 +5,12 @@
   "author": {
     "name": "Ivor Paul"
   },
-  "keywords": ["hooks", "skills", "automation", "workflow"],
-  "hooks": "./hooks/hooks.json"
+  "keywords": [
+    "hooks",
+    "skills",
+    "automation",
+    "workflow"
+  ],
+  "hooks": "./hooks/hooks.json",
+  "commands": "./commands"
 }
