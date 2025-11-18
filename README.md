@@ -38,7 +38,7 @@ Without this file, the hook will not enforce any skill requirements (fail-open b
 
 ```bash
 # If hosted in a Git repository
-/plugin marketplace add <your-repo-url>
+/plugin marketplace add https://github.com/Ivor/skill-checker
 /plugin install skill-checker
 
 # Or install from local directory
