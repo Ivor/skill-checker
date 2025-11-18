@@ -1,0 +1,10 @@
+{
+  "name": "skill-checker",
+  "version": "1.0.0",
+  "description": "Enforces skill activation before using specific tools. Ensures Claude loads required skills (like elixir-best-practices, test-debugger) before editing files or running commands.",
+  "author": {
+    "name": "Ivor Paul"
+  },
+  "keywords": ["hooks", "skills", "automation", "workflow"],
+  "hooks": "./hooks/hooks.json"
+}

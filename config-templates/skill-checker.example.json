@@ -1,0 +1,29 @@
+{
+  "mappings": [
+    {
+      "skill": "liveview-templates",
+      "tool_matcher": "Write|Edit|MultiEdit",
+      "patterns": [
+        "**/*.heex",
+        "**/live/**/*.ex"
+      ]
+    },
+    {
+      "skill": "elixir-best-practices",
+      "tool_matcher": "Write|Edit|MultiEdit",
+      "patterns": [
+        "lib/**/*.ex",
+        "**/test/**/*.exs"
+      ]
+    },
+    {
+      "skill": "test-debugger",
+      "tool_matcher": "Bash",
+      "tool_input_matcher": "mix test"
+    },
+    {
+      "skill": "tidewave",
+      "tool_matcher": "mcp__tidewave__get_logs"
+    }
+  ]
+}
