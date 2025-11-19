@@ -10,7 +10,7 @@
     {
       "name": "skill-checker",
       "description": "Enforces skill activation before using specific tools",
-      "source": "./",
+      "source": "./plugins/skill-checker",
       "category": "workflow",
       "version": "1.0.0",
       "author": {

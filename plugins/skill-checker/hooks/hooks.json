@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "./skill-checker.sh",
+            "command": "bash hooks/skill-checker.sh",
             "timeout": 10
           }
         ]
