@@ -16,7 +16,7 @@ Enforces skill activation before using specific tools. Ensures Claude loads requ
 
 ```bash
 # From GitHub (recommended)
-/plugin marketplace add https://github.com/YOUR-USERNAME/skill-checker
+/plugin marketplace add https://github.com/Ivor/skill-checker
 
 # Or from local directory (for development)
 /plugin marketplace add /path/to/skill-checker
