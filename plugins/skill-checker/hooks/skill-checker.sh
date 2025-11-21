@@ -16,8 +16,7 @@ set -euo pipefail
 # CONFIGURATION
 # ============================================================================
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly CONFIG_FILE="${SCRIPT_DIR}/skill-checker.json"
+readonly CONFIG_FILE=".claude/hooks/skill-checker.json"
 
 # ============================================================================
 # UTILITIES

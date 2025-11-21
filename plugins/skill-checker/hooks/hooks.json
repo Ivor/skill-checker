@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash hooks/skill-checker.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-checker.sh",
             "timeout": 10
           }
         ]
