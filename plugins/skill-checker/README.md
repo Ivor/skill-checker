@@ -35,23 +35,27 @@ Without this file, the hook will not enforce any skill requirements (fail-open b
 
 ## Installation
 
-### Step 1: Install the Plugin
+### Step 1: Add the Marketplace and Install the Plugin
 
 ```bash
-# If hosted in a Git repository
-/plugin marketplace add https://github.com/Ivor/skill-checker
-/plugin install skill-checker
+# Add the skill-checker marketplace from GitHub
+claude plugin marketplace add https://github.com/Ivor/skill-checker
 
-# Or install from local directory
-/plugin marketplace add /Users/ivorpaul/.claude/plugins
-/plugin install skill-checker
+# Install the skill-checker plugin
+claude plugin install skill-checker@skill-checker-marketplace
 ```
 
 ### Step 2: Configure for Your Project
 
-You can use `/init` to run the init slash command.
-
 **IMPORTANT**: This plugin requires project-specific configuration. After installation, you must create a `skill-checker.json` file in your project's `.claude/hooks/` directory.
+
+**Quick Setup** - Run the setup command in your project:
+
+```bash
+/skill-checker:setup-skill-checker
+```
+
+Or manually:
 
 1. Create the hooks directory if it doesn't exist:
 
@@ -80,7 +84,7 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
       "skill": "skill-name",
       "tool_matcher": "ToolName|AnotherTool",
       "tool_input_matcher": "optional-regex-pattern",
-      "patterns": ["**/*.ext", "path/**/*.ex"]
+      "file_patterns": [".*\\.ext$", "^path/.*\\.ex$"]
     }
   ]
 }
@@ -91,7 +95,7 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
 - **`skill`** (required): The name of the skill to require
 - **`tool_matcher`** (required): Regex pattern matching tool names (e.g., `"Write|Edit|MultiEdit"`)
 - **`tool_input_matcher`** (optional): Regex pattern matching tool input JSON (e.g., `"mix test"`)
-- **`patterns`** (optional): Array of glob patterns matching file paths (e.g., `["**/*.heex", "**/live/**/*.ex"]`)
+- **`file_patterns`** (optional): Array of **regex patterns** matching file paths (e.g., `[".*\\.heex$", ".*/live/.*\\.ex$"]`)
 
 ### Example Configurations
 
@@ -103,12 +107,12 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
     {
       "skill": "liveview-templates",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": ["**/*.heex", "**/live/**/*.ex"]
+      "file_patterns": [".*\\.heex$", ".*/live/.*\\.ex$"]
     },
     {
       "skill": "elixir-best-practices",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": ["lib/**/*.ex", "**/test/**/*.exs"]
+      "file_patterns": ["^lib/.*\\.ex$", ".*/test/.*\\.exs$"]
     },
     {
       "skill": "test-debugger",
@@ -127,12 +131,12 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
     {
       "skill": "react-best-practices",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": ["src/**/*.tsx", "src/**/*.jsx"]
+      "file_patterns": ["^src/.*\\.(tsx|jsx)$"]
     },
     {
       "skill": "typescript-patterns",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": ["src/**/*.ts", "src/**/*.tsx"]
+      "file_patterns": ["^src/.*\\.tsx?$"]
     }
   ]
 }
@@ -167,10 +171,12 @@ The `skill-checker.json` file defines mappings between tool usage patterns and r
    - Useful for matching specific commands: `"mix test"`, `"npm run"`
    - Matches against the entire tool input JSON string
 
-3. **File Patterns** (optional): Uses glob patterns to match file paths
-   - `**/*.ex` - all .ex files in any directory
-   - `lib/**/*.ex` - .ex files only under lib/
-   - `**/test/**/*.exs` - .exs files in any test directory
+3. **File Patterns** (optional): Uses regex patterns to match file paths
+   - `.*\.ex$` - all .ex files at any level
+   - `^lib/.*\.ex$` - .ex files only under lib/ directory
+   - `.*/test/.*\.exs$` - .exs files in any test directory
+
+   **Note**: Patterns are matched against the relative path from your project root. Remember to escape special regex characters like `.` with `\.`
 
 ### Conversation Continuation
 
