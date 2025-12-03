@@ -16,16 +16,16 @@ Enforces skill activation before using specific tools. Ensures Claude loads requ
 
 ```bash
 # From GitHub (recommended)
-/plugin marketplace add https://github.com/Ivor/skill-checker
+claude plugin marketplace add https://github.com/Ivor/skill-checker
 
 # Or from local directory (for development)
-/plugin marketplace add /path/to/skill-checker
+claude plugin marketplace add /path/to/skill-checker
 ```
 
 ### Install plugins:
 
 ```bash
-/plugin install skill-checker
+claude plugin install skill-checker@skill-checker-marketplace
 ```
 
 ## Plugin Structure
