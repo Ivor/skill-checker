@@ -161,37 +161,12 @@ matches_regex() {
     [[ "$text" =~ $pattern ]]
 }
 
-# Convert glob pattern to regex
-# Simple implementation: ** -> .*, * -> [^/]*
-glob_to_regex() {
-    local glob="$1"
-    local regex="$glob"
-
-    # Escape dots
-    regex="${regex//./\\.}"
-
-    # Replace ** with placeholder
-    regex="${regex//\*\*/___DOUBLE_STAR___}"
-
-    # Replace * with [^/]*
-    regex="${regex//\*/[^/]*}"
-
-    # Replace placeholder with .*
-    regex="${regex//___DOUBLE_STAR___/.*}"
-
-    # Anchor pattern
-    echo "^${regex}$"
-}
-
-# Check if file path matches glob pattern
-matches_glob() {
+# Check if file path matches regex pattern
+matches_file_pattern() {
     local file_path="$1"
-    local glob_pattern="$2"
+    local regex_pattern="$2"
 
-    local regex
-    regex="$(glob_to_regex "$glob_pattern")"
-
-    matches_regex "$file_path" "$regex"
+    matches_regex "$file_path" "$regex_pattern"
 }
 
 # ============================================================================
@@ -277,8 +252,8 @@ matches_tool_input() {
     matches_regex "$tool_input_json" "$tool_input_matcher"
 }
 
-# Check if at least one pattern matches the file path
-matches_any_pattern() {
+# Check if at least one regex pattern matches the file path
+matches_any_file_pattern() {
     local file_path="$1"
     local cwd="$2"
     shift 2
@@ -299,7 +274,7 @@ matches_any_pattern() {
     fi
 
     for pattern in "${patterns[@]}"; do
-        if matches_glob "$relative_path" "$pattern"; then
+        if matches_file_pattern "$relative_path" "$pattern"; then
             return 0
         fi
     done
@@ -330,22 +305,22 @@ mapping_matches() {
         matches_tool_input "$tool_input_json" "$tool_input_matcher" || return 1
     fi
 
-    # Check patterns if specified
+    # Check file_patterns if specified (regex patterns for file paths)
     local patterns_json
-    patterns_json="$(json_get_array "$mapping" '.patterns')"
+    patterns_json="$(json_get_array "$mapping" '.file_patterns')"
     local patterns_count
     patterns_count="$(echo "$patterns_json" | jq 'length')"
 
     if [[ "$patterns_count" -gt 0 ]]; then
         [[ -z "$file_path" ]] && return 1
 
-        # Extract patterns into array
+        # Extract regex patterns into array
         local patterns=()
         while IFS= read -r pattern; do
             patterns+=("$pattern")
         done < <(echo "$patterns_json" | jq -r '.[]')
 
-        matches_any_pattern "$file_path" "$cwd" "${patterns[@]}" || return 1
+        matches_any_file_pattern "$file_path" "$cwd" "${patterns[@]}" || return 1
     fi
 
     return 0

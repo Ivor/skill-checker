@@ -3,17 +3,17 @@
     {
       "skill": "liveview-templates",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "**/*.heex",
-        "**/live/**/*.ex"
+      "file_patterns": [
+        ".*\\.heex$",
+        ".*/live/.*\\.ex$"
       ]
     },
     {
       "skill": "elixir-best-practices",
       "tool_matcher": "Write|Edit|MultiEdit",
-      "patterns": [
-        "lib/**/*.ex",
-        "**/test/**/*.exs"
+      "file_patterns": [
+        "^lib/.*\\.ex$",
+        ".*/test/.*\\.exs$"
       ]
     },
     {
