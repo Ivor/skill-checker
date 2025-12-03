@@ -71,6 +71,16 @@ Or manually:
 
 3. Edit `.claude/hooks/skill-checker.json` to match your project's needs (see Configuration section below)
 
+**Keep Config Personal (Optional)**:
+
+If you don't want the configuration committed to your repository (e.g., for personal workflow preferences), add it to `.gitignore`:
+
+```bash
+echo ".claude/hooks/skill-checker.json" >> .gitignore
+```
+
+This allows you to use skill-checker without requiring other team members to have the same skills installed.
+
 ## Configuration
 
 The `skill-checker.json` file defines mappings between tool usage patterns and required skills.
@@ -226,7 +236,7 @@ This ensures Claude can continue working even if the hook encounters issues.
 ### Hook Allowing Tool Use When It Shouldn't
 
 - Verify your `tool_matcher` patterns are case-sensitive and exact
-- Check that file `patterns` are using proper glob syntax
+- Check that `file_patterns` are using proper regex syntax
 - Test patterns match relative paths from your project root
 
 ## Requirements
@@ -246,6 +256,7 @@ skill-checker/
 ├── hooks/
 │   ├── hooks.json           # Hook configuration
 │   └── skill-checker.sh     # Hook script
+├── commands/                # Slash commands
 ├── config-templates/
 │   └── skill-checker.example.json  # Example config
 └── README.md                # This file
