@@ -349,7 +349,10 @@ find_required_skills() {
     done < <(echo "$mappings_json" | jq -c '.[]')
 
     # Remove duplicates and output
-    printf '%s\n' "${required_skills[@]}" | sort -u
+    # Use ${array[@]+"${array[@]}"} to handle empty arrays with set -u
+    if [[ ${#required_skills[@]} -gt 0 ]]; then
+        printf '%s\n' "${required_skills[@]}" | sort -u
+    fi
 }
 
 # ============================================================================
@@ -434,7 +437,11 @@ The JSON syntax may be invalid. Please validate the config file."
 
     # Debug: Log required skills
     echo "Required skills count: ${#required_skills[@]}" >> "$debug_log"
-    echo "Required skills: ${required_skills[*]}" >> "$debug_log"
+    if [[ ${#required_skills[@]} -gt 0 ]]; then
+        echo "Required skills: ${required_skills[*]}" >> "$debug_log"
+    else
+        echo "Required skills: (none)" >> "$debug_log"
+    fi
 
     # If no skills required, allow
     if [[ ${#required_skills[@]} -eq 0 ]]; then
