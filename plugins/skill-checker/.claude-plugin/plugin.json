@@ -11,6 +11,5 @@
     "automation",
     "workflow"
   ],
-  "hooks": "./hooks/hooks.json",
   "commands": "./commands"
 }
